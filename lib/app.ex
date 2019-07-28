@@ -1,8 +1,7 @@
 defmodule NodesFun.App do
   use Application
 
-  def start(_type, _args) do
-    IO.puts("---- start ---")
+  def start(_type, {node_name}) do
     children = [
       {NodesFun.Server, 123},
     ]

@@ -14,7 +14,7 @@ defmodule NodesFun.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {NodesFun.App, []},
+      mod: {NodesFun.App, {Application.get_env(:nodes_fun, :node_name)}},
       extra_applications: [:logger]
     ]
   end
