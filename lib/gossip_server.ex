@@ -3,14 +3,24 @@ defmodule NodesFun.GossipServer do
 
   ### External API
 
-  def start_link(node_name) do
+  def start_link(server_name) do
     {:ok, pid} = GenServer.start_link(__MODULE__, nil, name: __MODULE__)
-    :global.register_name(node_name, pid)
+    :global.register_name(server_name, pid)
+
+#    send(self(), :eee)
+
     {:ok, pid}
   end
 
   def get_value do
+    send(__MODULE__, :eee)
+
     GenServer.call(__MODULE__, :get_value)
+  end
+
+  def handle_info(:eee, state) do
+    IO.puts("---- state #{inspect(state)} ---")
+    {:noreply, state}
   end
 
   ### GenServer implementation
