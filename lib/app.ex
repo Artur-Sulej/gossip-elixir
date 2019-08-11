@@ -8,8 +8,8 @@ defmodule NodesFun.App do
     children =
       if registration_node do
         Node.connect(:"one@MacBook-Pro-Artur")
-#                NodesFun.Registration.add_own_node()
-
+        :global.sync
+        NodesFun.Registration.add_own_node()
         [
           {NodesFun.GossipServer, server_name}
         ]
