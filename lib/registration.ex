@@ -6,6 +6,11 @@ defmodule NodesFun.Registration do
     Agent.start_link(fn -> [] end, name: @agent_name)
   end
 
+#  def init(state) do
+#    :net_kernel.monitor_nodes(true)
+#    {:ok, state}
+#  end
+
   def perform(reg_node) do
     connect_node(reg_node)
     nodes = get_nodes()
@@ -31,6 +36,11 @@ defmodule NodesFun.Registration do
       @agent_name,
       fn _nodes -> [] end
     )
+  end
+
+  def handle_info(msg, state) do
+    IO.puts("---- reg #{inspect(msg)} ---")
+    {:noreply, state}
   end
 
   defp connect_node(name) when is_binary(name) do

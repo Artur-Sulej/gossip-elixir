@@ -14,6 +14,11 @@ defmodule NodesFun.GossipServer do
     {:ok, pid}
   end
 
+#  def init(state) do
+#    GenServer.cast(self(), :kalafior)
+#    {:ok, nil}
+#  end
+
 #  @impl true
 #  def init(state) do
 #    IO.puts("---- init #{inspect(state)} ---")
@@ -42,6 +47,13 @@ defmodule NodesFun.GossipServer do
 
   def init(initial_number) do
     {:ok, initial_number}
+  end
+
+  def handle_cast(:kalafior, current_val) do
+    IO.puts("---- Node.list() #{inspect(Node.list())} ---")
+
+#    NodesFun.Registration.add_own_node(Node.self)
+    {:noreply, current_val}
   end
 
   def handle_cast({:set_value, new_val}, _from, _current_val) do

@@ -8,12 +8,14 @@ defmodule NodesFun.App do
     children =
       if registration_node do
         Node.connect(:"one@MacBook-Pro-Artur")
-        :global.sync
+        :global.sync()
         NodesFun.Registration.add_own_node()
+
         [
           {NodesFun.GossipServer, server_name}
         ]
       else
+        :net_kernel.monitor_nodes(true)
         [
           NodesFun.Registration
         ]
@@ -23,12 +25,14 @@ defmodule NodesFun.App do
     Supervisor.start_link(children, opts)
   end
 
-  #  def handle_info(:ddd, state) do
-  #    IO.puts("---- state #{inspect(state)} ---")
-  #    {:noreply, state}
-  #  end
+  def handle_info(msg, state) do
+    IO.puts("---- app #{inspect(msg)} ---")
+    {:noreply, state}
+  end
 end
 
+# proces global_name_server ??
+# https://learnyousomeerlang.com/distributed-otp-applications#making-the-application-distributed
 # mix run --no-halt
 # iex --sname two -S mix
 # jak nazwać node (bez iex)
@@ -48,3 +52,7 @@ end
 # SERVER_NAME=one SERVER_NAMES=one,two,three,four NODE_NAMES=one@MacBook-Pro-Artur,two@MacBook-Pro-Artur,three@MacBook-Pro-Artur,four@MacBook-Pro-Artur iex --sname two -S mix
 # Node pobiera listę zarejestrowanych nodeow / laczy sie z nimi / sam sie rejestruje
 # ensure_started
+# (distributed) (D)ETS
+# singletonowy agent
+# distributed registry
+# Application.ensure_all_started(:nodes_fun)
