@@ -1,59 +1,26 @@
 defmodule NodesFun.GossipServer do
   use GenServer
 
-  @name __MODULE__
-
   ### External API
 
   def start_link(server_name) do
-    {:ok, pid} = GenServer.start_link(__MODULE__, nil, name: @name)
+    {:ok, pid} = GenServer.start_link(__MODULE__, nil, name: __MODULE__)
     :global.register_name(server_name, pid)
-
-#    send(__MODULE__, :eee)
-#    GenServer.call(pid, {:set_value, 4448})
     {:ok, pid}
   end
 
-#  def init(state) do
-#    GenServer.cast(self(), :kalafior)
-#    {:ok, nil}
-#  end
-
-#  @impl true
-#  def init(state) do
-#    IO.puts("---- init #{inspect(state)} ---")
-##    a = NodesFun.Registration.get_nodes()
-##        IO.puts("---- a #{inspect(a)} ---")
-#        send(__MODULE__, :eee)
-#
-#    {:ok, NodesFun.Registration.get_nodes()}
-#  end
-
   def get_value do
-    send(__MODULE__, :eee)
-
     GenServer.call(__MODULE__, :get_value)
   end
 
-  def handle_info(msg, state) do
-
-    IO.puts("---- msg #{inspect(msg)} ---")
-#    IO.puts("---- state eee #{inspect(state)} ---")
-#    IO.puts("---- NodesFun.Registration.get_nodes() #{inspect(NodesFun.Registration.get_nodes())} ---")
-    {:noreply, state}
+  def set_value(value) do
+    GenServer.call(__MODULE__, {:set_value, value})
   end
 
   ### GenServer implementation
 
-  def init(initial_number) do
-    {:ok, initial_number}
-  end
-
-  def handle_cast(:kalafior, current_val) do
-    IO.puts("---- Node.list() #{inspect(Node.list())} ---")
-
-#    NodesFun.Registration.add_own_node(Node.self)
-    {:noreply, current_val}
+  def init(args) do
+    {:ok, args}
   end
 
   def handle_cast({:set_value, new_val}, _from, _current_val) do
@@ -61,9 +28,6 @@ defmodule NodesFun.GossipServer do
   end
 
   def handle_call({:set_value, new_val}, _from, current_val) do
-    a = NodesFun.Registration.get_nodes()
-        IO.puts("---- a #{inspect(a)} ---")
-
     {:reply, current_val, new_val}
   end
 

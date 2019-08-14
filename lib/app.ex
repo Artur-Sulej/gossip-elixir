@@ -7,15 +7,12 @@ defmodule NodesFun.App do
 
     children =
       if registration_node do
-        Node.connect(:"one@MacBook-Pro-Artur")
-        :global.sync()
-        NodesFun.Registration.add_own_node()
+        register_name(registration_node, server_name)
 
         [
           {NodesFun.GossipServer, server_name}
         ]
       else
-        :net_kernel.monitor_nodes(true)
         [
           NodesFun.Registration
         ]
@@ -25,9 +22,10 @@ defmodule NodesFun.App do
     Supervisor.start_link(children, opts)
   end
 
-  def handle_info(msg, state) do
-    IO.puts("---- app #{inspect(msg)} ---")
-    {:noreply, state}
+  defp register_name(registration_node, server_name) do
+    Node.connect(String.to_atom(registration_node))
+    :global.sync()
+    NodesFun.Registration.add_own_name(server_name)
   end
 end
 
