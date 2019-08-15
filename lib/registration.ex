@@ -19,6 +19,13 @@ defmodule NodesFun.Registration do
     end)
   end
 
+  def get_all_names do
+    Agent.get(@agent_name, fn names ->
+      names
+      |> Enum.map(fn {name, _node} -> name end)
+    end)
+  end
+
   def unregister_node(node_name) do
     Agent.update(@agent_name, &reject_node(&1, node_name))
   end

@@ -9,14 +9,6 @@ defmodule NodesFun.GossipServer do
     {:ok, pid}
   end
 
-  def get_value do
-    GenServer.call(__MODULE__, :get_value)
-  end
-
-  def set_value(value) do
-    GenServer.call(__MODULE__, {:set_value, value})
-  end
-
   ### GenServer implementation
 
   def init(args) do
