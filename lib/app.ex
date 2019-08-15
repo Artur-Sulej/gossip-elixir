@@ -13,6 +13,8 @@ defmodule NodesFun.App do
           {NodesFun.GossipServer, server_name}
         ]
       else
+        enable_monitoring_nodes()
+
         [
           NodesFun.Registration
         ]
@@ -27,6 +29,22 @@ defmodule NodesFun.App do
     Node.connect(String.to_atom(registration_node))
     :global.sync()
     NodesFun.Registration.add_own_name(server_name)
+  end
+
+  defp enable_monitoring_nodes do
+    spawn_link(fn ->
+      :net_kernel.monitor_nodes(true)
+      monitor_nodes()
+    end)
+  end
+
+  defp monitor_nodes do
+    receive do
+      {:nodeup, node_name} -> IO.puts("---- :nodeup #{inspect({:nodeup, node_name})} ---")
+      {:nodedown, node_name} -> IO.puts("---- :nodeup #{inspect({:nodedown, node_name})} ---")
+    end
+
+    monitor_nodes()
   end
 end
 
