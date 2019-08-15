@@ -2,11 +2,11 @@ defmodule NodesFun.App do
   use Application
 
   def start(_type, _args) do
-    server_name = :crypto.strong_rand_bytes(15) |> Base.url_encode64()
     registration_node = System.get_env("REG_NODE")
 
     children =
       if registration_node do
+        server_name = generate_server_name()
         register_name(registration_node, server_name)
 
         [
@@ -40,11 +40,19 @@ defmodule NodesFun.App do
 
   defp monitor_nodes do
     receive do
-      {:nodeup, node_name} -> IO.puts("---- :nodeup #{inspect({:nodeup, node_name})} ---")
-      {:nodedown, node_name} -> IO.puts("---- :nodeup #{inspect({:nodedown, node_name})} ---")
+      {:nodeup, node_name} ->
+        IO.puts("Node-Up #{inspect(node_name)} ---")
+
+      {:nodedown, node_name} ->
+        IO.puts("Node-Down #{inspect(node_name)} ---")
+        NodesFun.Registration.unregister_node(node_name)
     end
 
     monitor_nodes()
+  end
+
+  defp generate_server_name do
+    :crypto.strong_rand_bytes(15) |> Base.url_encode64()
   end
 end
 

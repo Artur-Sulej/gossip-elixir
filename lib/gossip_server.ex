@@ -33,10 +33,6 @@ defmodule NodesFun.GossipServer do
     {:reply, current_val, current_val}
   end
 
-  def terminate(_reason, _current_val) do
-    NodesFun.Registration.clear()
-  end
-
   defp pass_value(params) do
     NodesFun.Runner.call(params)
   end

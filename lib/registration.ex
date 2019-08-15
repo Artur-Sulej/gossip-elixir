@@ -7,14 +7,28 @@ defmodule NodesFun.Registration do
   end
 
   def add_own_name(name) do
-    Agent.update(@agent_name, fn names -> [name | names] end)
+    own_node = Node.self()
+    Agent.update(@agent_name, fn names -> [{name, own_node} | names] end)
   end
 
   def get_names(count) do
-    Agent.get(@agent_name, fn names -> Enum.take_random(names, count) end)
+    Agent.get(@agent_name, fn names ->
+      names
+      |> Enum.take_random(count)
+      |> Enum.map(fn {name, _node} -> name end)
+    end)
   end
 
-  def clear do
+  def unregister_node(node_name) do
+    own_node = Node.self()
+    Agent.update(@agent_name, &reject_node(&1, node_name))
+  end
+
+  def clear_all do
     Agent.update(@agent_name, fn _names -> [] end)
+  end
+
+  defp reject_node(names, node_name) do
+    Enum.reject(names, fn {_name, node_name} -> node_name == node_name end)
   end
 end
