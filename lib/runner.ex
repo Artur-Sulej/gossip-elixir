@@ -1,8 +1,12 @@
 defmodule NodesFun.Runner do
-  def call(%{steps: 0}), do: nil
+  @default_addressees 2
 
-  def call(%{value: value, steps: steps}) do
-    names = NodesFun.Registration.get_names(2)
+  def call(params, addressees \\ @default_addressees)
+
+  def call(%{steps: 0}, _), do: nil
+
+  def call(%{value: value, steps: steps}, addressees) do
+    names = NodesFun.Registration.get_names(addressees)
     Enum.each(names, &NodesFun.GossipClient.pass_value(&1, %{value: value, steps: steps - 1}))
   end
 
