@@ -13,4 +13,8 @@ defmodule NodesFun.Registration do
   def get_names(count) do
     Agent.get(@agent_name, fn names -> Enum.take_random(names, count) end)
   end
+
+  def clear do
+    Agent.update(@agent_name, fn _names -> [] end)
+  end
 end

@@ -2,7 +2,7 @@ defmodule NodesFun.App do
   use Application
 
   def start(_type, _args) do
-    server_name = System.get_env("SERVER_NAME")
+    server_name = :crypto.strong_rand_bytes(15) |> Base.url_encode64()
     registration_node = System.get_env("REG_NODE")
 
     children =
