@@ -23,23 +23,21 @@ defmodule NodesFun.GossipServer do
     {:ok, args}
   end
 
-  def handle_cast({:set_value, new_val}, _current_val) do
-    IO.puts("---- #{inspect(new_val)} ---")
-    pass_value(new_val)
+  def handle_cast({:set_value, params = %{value: new_val}}, _current_val) do
+    IO.puts("---- #{inspect(params)} ---")
+    pass_value(params)
     {:noreply, new_val}
-  end
-
-  def handle_call({:set_value, new_val}, _from, current_val) do
-    IO.puts("---- #{inspect(new_val)} ---")
-    pass_value(new_val)
-    {:reply, current_val, new_val}
   end
 
   def handle_call(:get_value, _, current_val) do
     {:reply, current_val, current_val}
   end
 
-  defp pass_value(new_val) do
-    NodesFun.Runner.call(new_val)
+  def terminate(_reason, _current_val) do
+    NodesFun.Registration.clear()
+  end
+
+  defp pass_value(params) do
+    NodesFun.Runner.call(params)
   end
 end
