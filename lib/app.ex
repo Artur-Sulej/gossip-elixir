@@ -23,12 +23,17 @@ defmodule NodesFun.App do
   end
 
   defp register_name(registration_node, server_name) do
+    Node.start(String.to_atom(server_name), :shortnames)
     Node.connect(String.to_atom(registration_node))
     :global.sync()
     NodesFun.Registration.add_own_name(server_name)
   end
 end
 
+# :net_kernel.monitor_nodes(true)
+# NodesFun.Runner.call(%{value: :pawian, steps: 2})
+# SERVER_NAME=banan REG_NODE=one@MacBook-Pro-Artur iex --sname four -S mix
+# z wygaszaniem (max liczba kroków)
 # proces global_name_server ??
 # https://learnyousomeerlang.com/distributed-otp-applications#making-the-application-distributed
 # mix run --no-halt
