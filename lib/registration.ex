@@ -20,7 +20,6 @@ defmodule NodesFun.Registration do
   end
 
   def unregister_node(node_name) do
-    own_node = Node.self()
     Agent.update(@agent_name, &reject_node(&1, node_name))
   end
 
@@ -28,7 +27,7 @@ defmodule NodesFun.Registration do
     Agent.update(@agent_name, fn _names -> [] end)
   end
 
-  defp reject_node(names, node_name) do
-    Enum.reject(names, fn {_name, node_name} -> node_name == node_name end)
+  defp reject_node(names, given_node_name) do
+    Enum.reject(names, fn {_name, node_name} -> node_name == given_node_name end)
   end
 end

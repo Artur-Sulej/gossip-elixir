@@ -15,7 +15,6 @@ defmodule NodesFun.MixProject do
   def application do
     [
       mod: {NodesFun.App, []},
-#      start_phases: [finish: []],
       extra_applications: [:logger]
     ]
   end
