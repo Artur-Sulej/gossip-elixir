@@ -16,7 +16,7 @@ defmodule NodesFun.GossipServer do
   end
 
   def handle_cast({:set_value, params = %{value: new_val}}, _current_val) do
-    IO.puts("---- #{inspect(params)} ---")
+    IO.puts("---- #{inspect({Node.self(), params.value, params.steps})} ---")
     pass_value(params)
     {:noreply, new_val}
   end

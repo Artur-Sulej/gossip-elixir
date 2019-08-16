@@ -32,7 +32,7 @@ defmodule NodesFun.App do
   end
 
   defp generate_server_name do
-    :crypto.strong_rand_bytes(15) |> Base.url_encode64()
+    System.get_env("SERVER_NAME") || :crypto.strong_rand_bytes(15) |> Base.url_encode64()
   end
 end
 
