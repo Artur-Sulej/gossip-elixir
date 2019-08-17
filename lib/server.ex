@@ -15,17 +15,17 @@ defmodule Gossip.Server do
     {:ok, args}
   end
 
-  def handle_cast({:set_value, msg}, _current_val) do
+  def handle_cast({:set_value, msg}, current_value) do
     IO.puts("---- #{inspect({Node.self(), msg.value, msg.metadata})} ---")
-    pass_value(msg)
-    {:noreply, msg.value}
+    new_value = perform(msg, current_value)
+    {:noreply, new_value}
   end
 
   def handle_call(:get_value, _, current_val) do
     {:reply, current_val, current_val}
   end
 
-  defp pass_value(msg) do
-    Gossip.Runner.call(msg)
+  defp perform(msg, current_value) do
+    Gossip.Runner.call(msg, current_value)
   end
 end
