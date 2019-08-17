@@ -1,4 +1,4 @@
-defmodule NodesFun.Registration do
+defmodule Gossip.Registration do
   use Agent
   @agent_name {:global, __MODULE__}
 

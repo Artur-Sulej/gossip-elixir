@@ -1,4 +1,4 @@
-defmodule NodesFun.GossipServer do
+defmodule Gossip.Server do
   use GenServer
 
   ### External API
@@ -26,6 +26,6 @@ defmodule NodesFun.GossipServer do
   end
 
   defp pass_value(msg) do
-    NodesFun.Runner.call(msg)
+    Gossip.Runner.call(msg)
   end
 end

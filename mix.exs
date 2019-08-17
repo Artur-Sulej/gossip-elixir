@@ -14,6 +14,7 @@ defmodule Gossip.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {Gossip.App, []},
       extra_applications: [:logger]
     ]
   end
