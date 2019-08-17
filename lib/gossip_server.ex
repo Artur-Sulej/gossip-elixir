@@ -15,17 +15,17 @@ defmodule NodesFun.GossipServer do
     {:ok, args}
   end
 
-  def handle_cast({:set_value, params = %{value: new_val}}, _current_val) do
-    IO.puts("---- #{inspect({Node.self(), params.value, params.steps})} ---")
-    pass_value(params)
-    {:noreply, new_val}
+  def handle_cast({:set_value, msg}, _current_val) do
+    IO.puts("---- #{inspect({Node.self(), msg.value, msg.metadata})} ---")
+    pass_value(msg)
+    {:noreply, msg.value}
   end
 
   def handle_call(:get_value, _, current_val) do
     {:reply, current_val, current_val}
   end
 
-  defp pass_value(params) do
-    NodesFun.Runner.call(params)
+  defp pass_value(msg) do
+    NodesFun.Runner.call(msg)
   end
 end

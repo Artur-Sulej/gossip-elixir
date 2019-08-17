@@ -37,7 +37,7 @@ defmodule NodesFun.App do
 end
 
 # :net_kernel.monitor_nodes(true)
-# NodesFun.Runner.call(%{value: :pawian, steps: 2})
+# NodesFun.Runner.call(%{value: :banan, metadata: %{steps: 2}})
 # SERVER_NAME=banan REG_NODE=one@MacBook-Pro-Artur iex --sname four -S mix
 # z wygaszaniem (max liczba kroków)
 # proces global_name_server ??
