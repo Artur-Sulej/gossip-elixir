@@ -64,4 +64,4 @@ end
 # (distributed) (D)ETS
 # singletonowy agent
 # distributed registry
-# Application.ensure_all_started(:nodes_fun)
+# Application.ensure_all_started(:gosspi)

@@ -1,9 +1,9 @@
-defmodule NodesFun.MixProject do
+defmodule Gossip.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :nodes_fun,
+      app: :gossip,
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
@@ -14,7 +14,6 @@ defmodule NodesFun.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      mod: {NodesFun.App, []},
       extra_applications: [:logger]
     ]
   end
