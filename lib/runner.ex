@@ -18,13 +18,15 @@ defmodule Gossip.Runner do
     name = Map.get(params, :value, nil)
     new_candidate = if current_name > name, do: current_name, else: name
 
-    new_msg = %{value: new_candidate, metadata: %{type: :leader_election}}
-    names = Gossip.Registration.get_names(@addressees_count)
+    if current_name != name do
+      new_msg = %{value: new_candidate, metadata: %{type: :leader_election}}
+      names = Gossip.Registration.get_names(@addressees_count)
 
-    Enum.each(
-      names,
-      &Gossip.Client.pass_value(&1, new_msg)
-    )
+      Enum.each(
+        names,
+        &Gossip.Client.pass_value(&1, new_msg)
+      )
+    end
 
     new_candidate
   end
