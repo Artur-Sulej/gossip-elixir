@@ -1,12 +1,8 @@
 defmodule Gossip.Runner do
-  @default_addressees 2
+  @addressees_count 2
 
-  def call(msg, addressees \\ @default_addressees)
-
-  def call(%{metadata: %{steps: 0}}, _), do: nil
-
-  def call(%{value: value, metadata: %{steps: steps}}, addressees) do
-    names = Gossip.Registration.get_names(addressees)
+  def call(%{value: value, metadata: %{steps: steps}}) do
+    names = Gossip.Registration.get_names(@addressees_count)
     new_msg = %{value: value, metadata: %{steps: steps - 1}}
 
     Enum.each(
